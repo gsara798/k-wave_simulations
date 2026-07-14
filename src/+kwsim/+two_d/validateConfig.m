@@ -15,7 +15,8 @@ end
 checks = repmat(emptyCheck(), 0, 1);
 
 required_top_level = ["grid", "medium", "geometry", "source", "time", ...
-    "sensor", "solver", "output", "diagnostics", "seed", "stage", "scenario"];
+    "sensor", "solver", "output", "attenuation", "diagnostics", "seed", ...
+    "stage", "scenario"];
 for name = required_top_level
     addCheck("field_" + name, isfield(cfg, name), double(isfield(cfg, name)), 1, ...
         "Required configuration field: " + name);
@@ -48,6 +49,11 @@ addCheck("frequency_positive", isPositiveScalar(f0), f0, 0, ...
     "f0_hz must be positive.");
 addCheck("cfl_range", isPositiveScalar(cfg.grid.cfl) && cfg.grid.cfl <= 0.30, ...
     cfg.grid.cfl, 0.30, "CFL must be in (0, 0.30] for the validated 2D reference.");
+if cfg.attenuation.enabled
+    addCheck("kelvin_voigt_cfl", cfg.grid.cfl <= 0.025, ...
+        cfg.grid.cfl, 0.025, ...
+        "Validated Kelvin-Voigt absorption requires CFL <= 0.025.");
+end
 addCheck("pml_outside", islogical(cfg.solver.pml_inside) && ...
     isscalar(cfg.solver.pml_inside) && ~cfg.solver.pml_inside, ...
     double(~cfg.solver.pml_inside), 1, ...
@@ -99,10 +105,29 @@ addCheck("shear_ppw", shear_ppw >= cfg.grid.minimum_shear_ppw, ...
 radius_points = round(cfg.source.contact_radius_m / dx);
 addCheck("source_resolution", radius_points >= 2, radius_points, 2, ...
     "The vibrator contact radius must span at least two grid points.");
-if cfg.stage < 3
+source_layout = lower(string(cfg.source.layout));
+valid_source_layout = any(source_layout == ["single_contact", "vibrator_bank"]);
+addCheck("source_layout", valid_source_layout, double(valid_source_layout), 1, ...
+    "source.layout must be single_contact or vibrator_bank.");
+uses_vibrator_bank = source_layout == "vibrator_bank";
+if ~uses_vibrator_bank
     addCheck("source_side", lower(string(cfg.source.side)) == "left", ...
         double(lower(string(cfg.source.side)) == "left"), 1, ...
-        "Stages 1 and 2 implement the validated left-side source only.");
+        "The validated single contact is implemented on the left side.");
+    single_contact_model = lower(string(cfg.source.contact_model));
+    valid_single_contact = any(single_contact_model == ["point", "finite_segment"]);
+    addCheck("single_contact_model", valid_single_contact, ...
+        double(valid_single_contact), 1, ...
+        "A single contact must use point or finite_segment geometry.");
+    expected_sampling = "sparse_patch";
+    if single_contact_model == "point"
+        expected_sampling = "point";
+    end
+    sampling_matches = lower(string(cfg.source.contact_sampling)) == ...
+        expected_sampling;
+    addCheck("single_contact_sampling", sampling_matches, ...
+        double(sampling_matches), 1, ...
+        "contact_sampling must agree with the single-contact model.");
 else
     valid_regime = any(lower(string(cfg.source.regime)) == ...
         ["directional", "partially_diffuse", "diffuse"]);
@@ -174,20 +199,39 @@ if any(~[checks.pass])
     throwPreflight(checks);
 end
 
+% Resolve attenuation during preflight using the exact rasterized material
+% maps. The same function is called again by buildMedium, ensuring that the
+% validated and executed Kelvin-Voigt coefficients cannot diverge.
+attenuation_cfg = cfg;
+attenuation_cfg.medium.cp_m_s = cp;
+[~, attenuation_metadata] = kwsim.two_d.resolveAttenuation( ...
+    attenuation_cfg, geometry_maps);
+addCheck("attenuation_configuration", true, 1, 1, ...
+    "Attenuation laws and Kelvin-Voigt viscosities are physically valid.");
+
 source_center_x = radius_points + 2;
 % The physical mid-plane lies halfway between nodes for even Nz. Preserve
 % that half-index in metadata and select a symmetric non-adjacent contact.
 % This removes the former half-pixel symmetry bias without imposing adjacent
 % Dirichlet nodes, which are unstable in pstdElastic2D 1.4.1.
 source_center_z = (Nz + 1) / 2;
-candidate_contact_z = find(abs((1:Nz) - source_center_z) <= radius_points);
-contact_offset = abs(candidate_contact_z - source_center_z);
-minimum_offset = min(contact_offset);
-source_contact_z = candidate_contact_z(contact_offset == max(contact_offset));
-if minimum_offset == 0
-    source_contact_z = unique([source_contact_z, round(source_center_z)]);
+if ~uses_vibrator_bank && lower(string(cfg.source.contact_model)) == "point"
+    source_contact_z = round(source_center_z);
+else
+    candidate_contact_z = find(abs((1:Nz) - source_center_z) <= radius_points);
+    contact_offset = abs(candidate_contact_z - source_center_z);
+    minimum_offset = min(contact_offset);
+    source_contact_z = candidate_contact_z(contact_offset == max(contact_offset));
+    if minimum_offset == 0
+        source_contact_z = unique([source_contact_z, round(source_center_z)]);
+    end
 end
 source_contact_z = sort(source_contact_z);
+if ~uses_vibrator_bank && lower(string(cfg.source.contact_model)) == "point"
+    % Public metadata must describe the actual driven node, not the
+    % half-grid symmetry plane used to choose it on an even-sized grid.
+    source_center_z = source_contact_z(1);
+end
 source_x_max = source_center_x + radius_points;
 
 boundary_x = round(cfg.sensor.boundary_margin_m / dx);
@@ -220,7 +264,7 @@ source_position_m = [x_m(source_center_x), (source_center_z - 1) * dz];
 % Stage 3 resolves every perimeter contact during preflight. The resulting
 % labelled mask is reused by the solver, so the geometry and drive checks
 % below describe exactly the sources that will be executed.
-if cfg.stage >= 3
+if uses_vibrator_bank
     source_bank = kwsim.two_d.generateVibratorBank(cfg);
     transverse_error = max(abs(arrayfun(@(v) dot( ...
         v.propagation_xz, v.polarization_xz), source_bank.vibrators)));
@@ -263,7 +307,7 @@ addCheck("geometry_material_ids_unique", unique_object_ids, ...
     "Every geometry object must use a unique material ID.");
 
 clearance = cfg.geometry.minimum_boundary_clearance_m;
-if cfg.stage >= 3
+if uses_vibrator_bank
     source_mask = source_bank.label_mask_xz > 0;
     geometry_overlaps_source = any( ...
         geometry_maps.material_id_xz(source_mask) ~= 1);
@@ -321,7 +365,7 @@ if any(~[checks.pass])
 end
 
 [Xcorners, Zcorners] = ndgrid(x_m([x_start, x_end]), z_m([z_start, z_end]));
-if cfg.stage >= 3
+if uses_vibrator_bank
     source_positions_m = vertcat(source_bank.vibrators.center_m_xz);
 else
     source_positions_m = source_position_m;
@@ -372,12 +416,13 @@ cfg.medium.lambda_pa = rho * (cp^2 - 2 * cs^2);
 cfg.medium.mu_pa = rho * cs^2;
 cfg.medium.minimum_cs_m_s = minimum_cs;
 cfg.medium.maximum_cs_m_s = maximum_cs;
+cfg.attenuation.resolved = attenuation_metadata;
 cfg.geometry.resolved = rmfield(geometry_metadata, 'object_masks_xz');
 cfg.source.contact_radius_points = radius_points;
 cfg.source.center_index_xz = [source_center_x, source_center_z];
 cfg.source.center_m_xz = source_position_m;
 cfg.source.contact_z_indices = source_contact_z;
-if cfg.stage >= 3
+if uses_vibrator_bank
     cfg.source.resolved_bank = source_bank;
 end
 cfg.sensor.x_indices = x_indices;

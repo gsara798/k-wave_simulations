@@ -18,7 +18,7 @@ rng(cfg.seed, 'twister');
 
 [kgrid, cfg] = kwsim.two_d.buildGrid(cfg);
 [medium, truth_internal] = kwsim.two_d.buildMedium(cfg);
-if cfg.stage >= 3
+if lower(string(cfg.source.layout)) == "vibrator_bank"
     [source, source_metadata] = ...
         kwsim.two_d.buildVibratorBankSource(cfg, kgrid);
 else
@@ -85,6 +85,17 @@ truth.cs_m_s_zx = truth_internal.cs_m_s_xz.';
 truth.rho_kg_m3_zx = truth_internal.rho_kg_m3_xz.';
 truth.material_id_zx = truth_internal.material_id_xz.';
 truth.attenuation_db_cm_zx = truth_internal.attenuation_db_cm_xz.';
+truth.attenuation = truth_internal.attenuation;
+attenuation_map_names = ["shear_alpha_at_f0_db_cm", ...
+    "compression_alpha_at_f0_db_cm", "shear_kv_db_mhz2_cm", ...
+    "compression_kv_db_mhz2_cm", "eta_pa_s", "chi_pa_s"];
+for attenuation_name = attenuation_map_names
+    internal_name = attenuation_name + "_xz";
+    public_name = attenuation_name + "_zx";
+    truth.attenuation.(public_name) = ...
+        truth_internal.attenuation.(internal_name).';
+    truth.attenuation = rmfield(truth.attenuation, internal_name);
+end
 truth.geometry = rmfield(truth_internal.geometry, 'object_masks_xz');
 truth.geometry.object_masks_zx = cellfun(@transpose, ...
     truth_internal.geometry.object_masks_xz, 'UniformOutput', false);

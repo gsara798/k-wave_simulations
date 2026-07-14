@@ -6,7 +6,7 @@ function cfg = defaultConfig()
 % naming difference is confined to the solver adapter in this package.
 
 cfg = struct();
-cfg.schema_version = "2.0";
+cfg.schema_version = "3.0";
 cfg.stage = 1;
 cfg.scenario = "homogeneous_directional";
 cfg.seed = 1001;
@@ -43,6 +43,10 @@ cfg.geometry.require_objects_inside_sensor_roi = true;
 % A left-side source with axial motion is transverse to its main (+x)
 % propagation direction and therefore preferentially launches shear waves.
 cfg.source = struct();
+% Source layout is independent of the project stage. This allows later
+% physics stages to reuse the validated single-contact benchmark without
+% being forced to construct a Stage 3 perimeter bank.
+cfg.source.layout = "single_contact";
 cfg.source.side = "left";
 cfg.source.f0_hz = 500;
 cfg.source.velocity_amplitude_m_s = 1e-6;
@@ -85,6 +89,15 @@ cfg.output.save_time_series = false;
 cfg.output.directory = "";
 cfg.output.overwrite = false;
 
+% pstdElastic2D implements f^2 Kelvin-Voigt absorption. Stage 4 reproduces
+% an arbitrary target power law across independent monofrequency runs by
+% recalibrating this coefficient at each source frequency. Disabled means
+% the absorption fields are omitted entirely from the solver medium.
+cfg.attenuation = struct();
+cfg.attenuation.enabled = false;
+cfg.attenuation.model = "monofrequency_power_law";
+cfg.attenuation.materials = kwsim.two_d.makeAttenuationMaterial(1);
+
 % Thresholds are part of the result contract, so every reported pass/fail
 % can be reconstructed from the saved configuration.
 cfg.diagnostics = struct();
@@ -112,5 +125,13 @@ cfg.diagnostics.maximum_drive_power_relative_error = 0.01;
 cfg.diagnostics.minimum_finite_contact_node_spacing_points = 4;
 cfg.diagnostics.maximum_contact_span_relative_error = 0.05;
 cfg.diagnostics.maximum_contact_profile_symmetry_error = 1e-12;
+cfg.diagnostics.maximum_attenuation_relative_error = 0.05;
+cfg.diagnostics.maximum_power_law_exponent_absolute_error = 0.05;
+cfg.diagnostics.maximum_attenuated_speed_relative_difference = 0.02;
+cfg.diagnostics.minimum_attenuation_fit_r_squared = 0.98;
+cfg.diagnostics.minimum_attenuation_fit_points = 8;
+cfg.diagnostics.attenuation_fit_relative_amplitude_floor = 0.20;
+cfg.diagnostics.attenuation_fit_half_width_m = 1e-3;
+cfg.diagnostics.attenuation_fit_downstream_wavelengths = 1.5;
 
 end

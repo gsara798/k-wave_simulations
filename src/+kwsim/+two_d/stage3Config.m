@@ -21,6 +21,7 @@ cfg.scenario = "stage3_" + regime;
 % of the finite lossless domain. This benchmark seed was selected only
 % after passing the same stationarity gate applied to every user seed.
 cfg.seed = 1002;
+cfg.source.layout = "vibrator_bank";
 cfg.source.regime = regime;
 % Each Stage 3 vibrator is imposed at one resolved boundary node. This
 % avoids coupling several Dirichlet constraints within every member of a

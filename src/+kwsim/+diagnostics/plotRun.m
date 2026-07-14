@@ -17,6 +17,12 @@ if ~isfolder(output_directory)
 end
 
 files = struct();
+if isfield(result.config_resolved.source, 'layout')
+    uses_vibrator_bank = ...
+        lower(string(result.config_resolved.source.layout)) == "vibrator_bank";
+else
+    uses_vibrator_bank = result.config_resolved.stage >= 3;
+end
 
 % -------------------------------------------------------------------------
 % Source geometry, waveform, and spectrum
@@ -30,7 +36,7 @@ imagesc(result.config_resolved.derived.x_full_m * 1e3, ...
     result.config_resolved.derived.z_full_m * 1e3, result.source.mask_zx);
 axis image; set(gca, 'YDir', 'reverse');
 hold on;
-if result.config_resolved.stage >= 3
+if uses_vibrator_bank
     centers_mm = 1e3*vertcat(result.source.vibrators.center_m_xz);
     polarization = vertcat(result.source.vibrators.polarization_xz);
     plot(centers_mm(:,1), centers_mm(:,2), 'wo', 'MarkerFaceColor', 'k', ...
@@ -49,7 +55,7 @@ else
 end
 hold off;
 xlabel('Lateral position, x (mm)'); ylabel('Axial position, z (mm)');
-if result.config_resolved.stage >= 3
+if uses_vibrator_bank
     title(sprintf('%s source bank (%d point contacts)', ...
         sentenceCase(result.source.regime), result.source.vibrator_count));
 else
@@ -62,7 +68,7 @@ nexttile(layout);
 plot(result.source.t_s * 1e3, result.source.waveform_m_s * 1e6, 'LineWidth', 1.2);
 xlabel('Time, t (ms)'); ylabel('Axial particle velocity, v_z (\mum s^{-1})');
 grid on;
-if result.config_resolved.stage >= 3
+if uses_vibrator_bank
     ylabel('Scalar contact velocity (\mum s^{-1})');
     title('Representative cosine-ramped sinusoidal drive');
 else
@@ -82,7 +88,7 @@ text(0, 0.95, "Source diagnostics", 'FontWeight', 'bold', 'FontSize', 12);
 text(0, 0.78, sprintf('Frequency, f_0: %.3f Hz', result.source.f0_hz));
 text(0, 0.64, sprintf('Peak velocity amplitude: %.3f \\mum s^{-1}', ...
     1e6*result.source.velocity_amplitude_m_s));
-if result.config_resolved.stage >= 3
+if uses_vibrator_bank
     text(0, 0.50, sprintf('Coherent/diffuse contacts: %d/%d', ...
         result.source.coherent_count, result.source.diffuse_count));
     text(0, 0.42, sprintf('Prescribed-drive relative error: %.3g', ...
