@@ -38,11 +38,11 @@ verifyEqual(testCase, truth.attenuation_db_cm_xz, ...
 end
 
 function testHeterogeneousMaterialsMapExactly(testCase)
-cfg = kwsim.two_d.circularInclusionConfig();
+cfg = heterogeneousAttenuationConfig();
 cfg.stage = 4;
 cfg.grid.cfl = 0.025;
-% This unit test validates material rasterization only; the 96-by-95 Stage 2
-% sensor is intentionally not executed at the viscous time step.
+% This unit test validates heterogeneous material rasterization only;
+% the full sensor is intentionally not executed at the viscous time step.
 cfg.diagnostics.maximum_sensor_memory_bytes = Inf;
 cfg.attenuation.enabled = true;
 cfg.attenuation.materials = [ ...
@@ -60,7 +60,7 @@ verifyEqual(testCase, unique( ...
 end
 
 function testRejectsMissingMaterialLaw(testCase)
-cfg = kwsim.two_d.circularInclusionConfig();
+cfg = heterogeneousAttenuationConfig();
 cfg.stage = 4;
 cfg.grid.cfl = 0.05;
 cfg.attenuation.enabled = true;
@@ -82,3 +82,28 @@ cfg.attenuation.materials = kwsim.two_d.makeAttenuationMaterial(1, ...
 verifyError(testCase, @() kwsim.two_d.validateConfig(cfg), ...
     'kwsim:InvalidConfiguration');
 end
+
+function cfg = heterogeneousAttenuationConfig()
+%HETEROGENEOUSATTENUATIONCONFIG Local fixture for attenuation unit tests.
+%
+% This fixture intentionally does not depend on a benchmark configuration.
+
+cfg = kwsim.two_d.defaultConfig();
+cfg.scenario = "heterogeneous_attenuation_unit_fixture";
+
+% Odd Nz gives an exact axial symmetry plane.
+cfg.grid.Nz = 95;
+
+center_x_m = 0.5 * (cfg.grid.Nx - 1) * cfg.grid.dx_m;
+center_z_m = 0.5 * (cfg.grid.Nz - 1) * cfg.grid.dz_m;
+
+cfg.geometry.objects = kwsim.two_d.makeCircleObject( ...
+    [center_x_m, center_z_m], ...
+    8e-3, ...
+    2, ...
+    3.0, ...
+    1020, ...
+    "attenuation_test_inclusion");
+
+end
+

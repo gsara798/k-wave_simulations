@@ -1,8 +1,8 @@
-function cfg = compactStage2Config()
-%COMPACTSTAGE2CONFIG Small circular-inclusion case for automated validation.
+function cfg = compactConfig()
+%COMPACTCONFIG Small circular-inclusion case for automated validation.
 %
 % Material contrasts, frequency, grid spacing, PPW, source physics, and
-% diagnostic thresholds match the full 96-by-96 Stage 2 reference. The
+% diagnostic thresholds match the full 96-by-96 circular-inclusion benchmark reference. The
 % circle radius is reduced to 3 mm so it remains fully inside the compact
 % sensor ROI.
 

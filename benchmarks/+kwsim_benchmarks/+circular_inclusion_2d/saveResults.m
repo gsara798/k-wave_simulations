@@ -1,5 +1,5 @@
-function paths = saveStage2Validation(validation, output_directory)
-%SAVESTAGE2VALIDATION Save Stage 2 cross-run results and readable checks.
+function paths = saveResults(validation, output_directory)
+%SAVERESULTS Save circular-inclusion benchmark cross-run results and readable checks.
 %
 % The MAT file contains all three simulations. The text file exposes every
 % acceptance value and threshold without requiring MATLAB to inspect it.
@@ -14,17 +14,17 @@ if ~isfolder(output_directory)
     mkdir(output_directory);
 end
 
-mat_file = fullfile(output_directory, "stage2_validation.mat");
+mat_file = fullfile(output_directory, "validation.mat");
 save(mat_file, 'validation', '-v7.3');
 
-summary_file = fullfile(output_directory, "stage2_validation_summary.txt");
+summary_file = fullfile(output_directory, "validation_summary.txt");
 fid = fopen(summary_file, 'w');
 if fid < 0
     error('kwsim:SummaryWriteFailed', ...
-        'Could not create Stage 2 validation summary: %s', summary_file);
+        'Could not create circular-inclusion benchmark validation summary: %s', summary_file);
 end
 cleanup = onCleanup(@() fclose(fid));
-fprintf(fid, 'KWSIM STAGE 2 CROSS-RUN VALIDATION\n');
+fprintf(fid, 'KWSIM CIRCULAR-INCLUSION 2D BENCHMARK\n');
 fprintf(fid, '%s\n\n', validation.summary);
 fprintf(fid, '%-40s %-6s %-14s %-14s\n', ...
     'Check', 'Pass', 'Value', 'Threshold');

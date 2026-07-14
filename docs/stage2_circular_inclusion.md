@@ -27,7 +27,7 @@ or exceed the 5% discrete-area error threshold.
 
 ## Acceptance suite
 
-`kwsim.diagnostics.runStage2Validation` performs three simulations with the
+`kwsim_benchmarks.circular_inclusion_2d.run` performs three simulations with the
 same constant `cp`:
 
 1. requested contrast inclusion;
@@ -43,5 +43,5 @@ energy-based acceptance metric. Homogeneous subtraction prevents
 staggered-grid source placement and common boundary residuals from being
 misclassified as an asymmetric inclusion response.
 
-`saveStage2Validation` writes both the complete MAT suite and a plain-text
+`kwsim_benchmarks.circular_inclusion_2d.saveResults` writes both the complete MAT suite and a plain-text
 table containing every cross-run acceptance value and threshold.

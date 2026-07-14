@@ -1,5 +1,5 @@
-function [figure_handle, output_file] = plotInclusionComparison(contrast, reference, output_file, options)
-%PLOTINCLUSIONCOMPARISON Plot truth and axial-field effects of an inclusion.
+function [figure_handle, output_file] = plotResults(contrast, reference, output_file, options)
+%PLOTRESULTS Plot truth and axial-field effects of an inclusion.
 %
 % The figure combines full-domain material maps with ROI displacement maps.
 % The inclusion boundary is overlaid on all field panels. Amplitude and
@@ -14,7 +14,7 @@ arguments
     options.CloseAfterExport (1,1) logical = false
 end
 
-style = kwsim.common.figureTemplate();
+style = kwsim.viz.figureTemplate();
 full_x_mm = contrast.config_resolved.derived.x_full_m * 1e3;
 full_z_mm = contrast.config_resolved.derived.z_full_m * 1e3;
 x_mm = contrast.axes.x_m * 1e3;
@@ -102,7 +102,7 @@ legend(axis_handle, 'Location', 'best');
 title(axis_handle, sprintf('Profiles at source depth, z = %.2f mm', ...
     contrast.axes.z_m(source_row)*1e3));
 
-kwsim.common.applyFigureStyle(figure_handle, style);
+kwsim.viz.applyFigureStyle(figure_handle, style);
 figure_title.FontSize = style.figure_title_font_size_pt;
 
 output_file = string(output_file);

@@ -1,5 +1,5 @@
-function cfg = circularInclusionConfig()
-%CIRCULARINCLUSIONCONFIG Stage 2 reference with one central circular inclusion.
+function cfg = config()
+%CONFIG circular-inclusion benchmark reference with one central circular inclusion.
 %
 % The background has cs=2 m/s and rho=1000 kg/m^3. The 8 mm-radius
 % inclusion has cs=3 m/s and rho=1020 kg/m^3. In reduced-cp mode, validation

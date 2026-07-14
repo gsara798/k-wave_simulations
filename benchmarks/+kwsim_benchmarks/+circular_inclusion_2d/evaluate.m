@@ -1,9 +1,9 @@
-function validation = evaluateStage2Results(contrast, contrast_report, ...
+function validation = evaluate(contrast, contrast_report, ...
         homogeneous, homogeneous_report, zero_contrast, zero_report, base_cfg)
-%EVALUATESTAGE2RESULTS Evaluate existing Stage 2 comparison simulations.
+%EVALUATE Evaluate existing circular-inclusion benchmark comparison simulations.
 %
 % This function performs no simulation. It is intentionally separate from
-% runStage2Validation so diagnostic definitions can be corrected or extended
+% circular_inclusion_2d.run so diagnostic definitions can be corrected or extended
 % without spending solver time or altering the saved physical fields.
 
 arguments
@@ -58,7 +58,7 @@ addCheck("scattered_energy_axial_symmetry", energy_symmetry_error <= ...
     base_cfg.diagnostics.maximum_axial_symmetry_error);
 
 validation = struct();
-validation.stage = 2;
+validation.benchmark = "circular_inclusion_2d";
 validation.valid = all([checks.pass]);
 validation.checks = checks;
 validation.metrics = struct();
