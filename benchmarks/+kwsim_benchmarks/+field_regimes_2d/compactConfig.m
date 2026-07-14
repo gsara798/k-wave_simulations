@@ -1,5 +1,5 @@
-function cfg = compactStage3Config(regime)
-%COMPACTSTAGE3CONFIG Fast Stage 3 configuration for tests and development.
+function cfg = compactConfig(regime)
+%COMPACTCONFIG Fast field-regimes configuration for tests and development.
 %
 % This benchmark preserves 500 Hz excitation, 0.5 mm spacing, 2 m/s shear
 % speed, eight recorded cycles, vector sources, and fixed total drive. The
@@ -11,7 +11,7 @@ arguments
         ["directional", "partially_diffuse", "diffuse"])} = "directional"
 end
 
-cfg = kwsim.two_d.stage3Config(regime);
+cfg = kwsim_benchmarks.field_regimes_2d.config(regime);
 cfg.grid.Nx = 48;
 cfg.grid.Nz = 48;
 cfg.solver.pml_size_points = 8;

@@ -1,15 +1,16 @@
-function tests = test_stage3b_finite_contacts
-%TEST_STAGE3B_FINITE_CONTACTS Unit tests for finite external source geometry.
+function tests = test_finite_contact_sources
+%TEST_FINITE_CONTACT_SOURCES Unit tests for finite external source geometry.
 tests = functiontests(localfunctions);
 end
 
 function setupOnce(~)
 root = fileparts(fileparts(fileparts(mfilename('fullpath'))));
 addpath(fullfile(root, 'src'));
+addpath(fullfile(root, 'benchmarks'));
 end
 
 function testReferenceContactGeometryAndDrive(testCase)
-cfg = kwsim.two_d.finiteContactConfig("directional");
+cfg = kwsim_benchmarks.finite_contacts_2d.config("directional");
 [cfg, preflight] = kwsim.two_d.validateConfig(cfg);
 bank = cfg.source.resolved_bank;
 verifyTrue(testCase, preflight.valid);
@@ -26,7 +27,7 @@ verifyLessThanOrEqual(testCase, bank.drive_power_relative_error, 1e-14);
 end
 
 function testDenseFiniteContactIsRejected(testCase)
-cfg = kwsim.two_d.finiteContactConfig("diffuse");
+cfg = kwsim_benchmarks.finite_contacts_2d.config("diffuse");
 cfg.source.contact_radius_m = 1.5e-3;
 cfg.source.contact_node_spacing_points = 3;
 verifyError(testCase, @() kwsim.two_d.validateConfig(cfg), ...
@@ -34,7 +35,7 @@ verifyError(testCase, @() kwsim.two_d.validateConfig(cfg), ...
 end
 
 function testArbitraryCardinalOrientation(testCase)
-cfg = kwsim.two_d.finiteContactConfig("directional");
+cfg = kwsim_benchmarks.finite_contacts_2d.config("directional");
 cfg.source.target_angle_deg = 90;
 [cfg, ~] = kwsim.two_d.validateConfig(cfg);
 vibrators = cfg.source.resolved_bank.vibrators;
@@ -46,7 +47,7 @@ verifyEqual(testCase, vertcat(vibrators.polarization_xz), ...
 end
 
 function testObliqueDirectionUsesGeometricPhaseGradient(testCase)
-cfg = kwsim.two_d.finiteContactConfig("directional");
+cfg = kwsim_benchmarks.finite_contacts_2d.config("directional");
 cfg.source.target_angle_deg = 35;
 [cfg, ~] = kwsim.two_d.validateConfig(cfg);
 vibrators = cfg.source.resolved_bank.vibrators;
@@ -71,7 +72,7 @@ z_m = (0:7)*0.5e-3;
 field = exp(-1i*2*pi*(X + 0.2*Z)/4e-3);
 point = syntheticResult("point", field, x_m, z_m, 0);
 finite = syntheticResult("finite_segment", 2i*field, x_m, z_m, 4e-3);
-comparison = kwsim.diagnostics.compareContactModels(point, finite);
+comparison = kwsim_benchmarks.finite_contacts_2d.compareModels(point, finite);
 verifyEqual(testCase, comparison.correlation_magnitude, 1, 'AbsTol', 1e-12);
 verifyLessThanOrEqual(testCase, ...
     comparison.optimal_scaled_shape_relative_error, 1e-12);

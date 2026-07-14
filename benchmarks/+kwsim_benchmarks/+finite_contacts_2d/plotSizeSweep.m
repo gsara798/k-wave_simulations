@@ -1,12 +1,12 @@
-function [fig, output_file] = plotContactSizeSweep(sweep, output_file)
-%PLOTCONTACTSIZESWEEP Visualize point-limit sensitivity of finite contacts.
+function [fig, output_file] = plotSizeSweep(sweep, output_file)
+%PLOTSIZESWEEP Visualize point-limit sensitivity of finite contacts.
 
 arguments
     sweep struct
     output_file {mustBeTextScalar} = ""
 end
 
-style = kwsim.common.figureTemplate();
+style = kwsim.viz.figureTemplate();
 results = [{sweep.point_result}; sweep.finite_results(:)];
 count = numel(results);
 if count ~= 3
@@ -63,7 +63,7 @@ ylabel('Relative shape error'); title('Error after optimal complex scaling');
 
 title(layout, sprintf('Contact-size sensitivity at f_0 = %.1f Hz | valid = %d', ...
     sweep.point_result.axes.f0_hz, sweep.valid));
-kwsim.common.applyFigureStyle(fig, style);
+kwsim.viz.applyFigureStyle(fig, style);
 
 output_file = string(output_file);
 if strlength(output_file) > 0

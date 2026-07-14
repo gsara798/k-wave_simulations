@@ -1,21 +1,20 @@
-function cfg = finiteContactConfig(regime)
-%FINITECONTACTCONFIG Stage 3B configuration with finite external contacts.
+function cfg = config(regime)
+%CONFIG Configuration with finite external vibrator contacts.
 %
-% cfg = kwsim.two_d.finiteContactConfig("directional")
+% cfg = kwsim_benchmarks.finite_contacts_2d.config("directional")
 %
 % A physical vibrator is a tangential perimeter segment sampled every two
 % grid points. Every active node receives its own labelled solver channel,
 % while all nodes in the segment share vibrator phase and polarization. A
-% raised-cosine profile reduces edge discontinuities. The point-source model
-% remains available through kwsim.two_d.stage3Config.
+% raised-cosine profile reduces edge discontinuities. The point-contact reference is provided by the field-regimes benchmark.
 
 arguments
     regime (1,1) string {mustBeMember(regime, ...
         ["directional", "partially_diffuse", "diffuse"])} = "directional"
 end
 
-cfg = kwsim.two_d.stage3Config(regime);
-cfg.scenario = "stage3b_finite_contact_" + regime;
+cfg = kwsim_benchmarks.field_regimes_2d.config(regime);
+cfg.scenario = "finite_contacts_" + regime;
 cfg.source.contact_model = "finite_segment";
 cfg.source.contact_sampling = "sparse_patch"; % Backward-compatible alias.
 cfg.source.contact_profile = "raised_cosine";

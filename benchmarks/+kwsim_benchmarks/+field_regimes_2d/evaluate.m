@@ -1,5 +1,5 @@
-function validation = evaluateStage3Results(results, reports, configurations)
-%EVALUATESTAGE3RESULTS Evaluate directionality and source-bank consistency.
+function validation = evaluate(results, reports, configurations)
+%EVALUATE Evaluate directionality and source-bank consistency.
 %
 % This function performs no wave simulation. Separating it from the runner
 % permits saved fields to be re-evaluated after a diagnostic correction.
@@ -68,7 +68,7 @@ addCheck("constant_prescribed_total_drive", drive_spread <= ...
     threshold_cfg.maximum_drive_power_relative_error);
 
 validation = struct();
-validation.stage = 3;
+validation.benchmark = "field_regimes_2d";
 validation.valid = all([checks.pass]);
 validation.checks = checks;
 validation.metrics = struct();

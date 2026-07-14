@@ -1,9 +1,9 @@
-function cfg = stage3Config(regime)
-%STAGE3CONFIG Reference configuration for a Stage 3 field regime.
+function cfg = config(regime)
+%CONFIG Reference configuration for one 2D shear-field regime.
 %
-% cfg = kwsim.two_d.stage3Config("directional")
-% cfg = kwsim.two_d.stage3Config("partially_diffuse")
-% cfg = kwsim.two_d.stage3Config("diffuse")
+% cfg = kwsim_benchmarks.field_regimes_2d.config("directional")
+% cfg = kwsim_benchmarks.field_regimes_2d.config("partially_diffuse")
+% cfg = kwsim_benchmarks.field_regimes_2d.config("diffuse")
 %
 % Acceptance benchmarks use a homogeneous medium so source-generated
 % directionality is not confounded by material scattering. Geometry objects
@@ -16,14 +16,14 @@ end
 
 cfg = kwsim.two_d.defaultConfig();
 cfg.stage = 3;
-cfg.scenario = "stage3_" + regime;
+cfg.scenario = "field_regimes_" + regime;
 % Random perimeter layouts can couple differently to weakly damped modes
 % of the finite lossless domain. This benchmark seed was selected only
 % after passing the same stationarity gate applied to every user seed.
 cfg.seed = 1002;
 cfg.source.layout = "vibrator_bank";
 cfg.source.regime = regime;
-% Each Stage 3 vibrator is imposed at one resolved boundary node. This
+% Each benchmark vibrator is imposed at one resolved boundary node. This
 % avoids coupling several Dirichlet constraints within every member of a
 % large bank; contact_radius_m still defines placement clearance.
 cfg.source.contact_model = "point";

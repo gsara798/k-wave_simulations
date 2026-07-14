@@ -1,7 +1,7 @@
-function comparison = compareContactModels(point_result, finite_result)
-%COMPARECONTACTMODELS Compare point and finite contacts on their common ROI.
+function comparison = compareModels(point_result, finite_result)
+%COMPAREMODELS Compare point and finite contacts on their common ROI.
 %
-% comparison = kwsim.diagnostics.compareContactModels(point, finite)
+% comparison = kwsim_benchmarks.finite_contacts_2d.compareModels(point, finite)
 %
 % The function performs no simulations. It intersects the physical x and z
 % axes exactly and compares the complex measured axial-displacement phasors.

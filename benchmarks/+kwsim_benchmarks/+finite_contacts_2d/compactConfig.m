@@ -1,13 +1,13 @@
-function cfg = compactFiniteContactConfig(regime)
-%COMPACTFINITECONTACTCONFIG Fast Stage 3B finite-contact benchmark.
+function cfg = compactConfig(regime)
+%COMPACTCONFIG Fast finite-contact configuration for testing.
 
 arguments
     regime (1,1) string {mustBeMember(regime, ...
         ["directional", "partially_diffuse", "diffuse"])} = "directional"
 end
 
-cfg = kwsim.diagnostics.compactStage3Config(regime);
-cfg.scenario = "compact_stage3b_finite_contact_" + regime;
+cfg = kwsim_benchmarks.field_regimes_2d.compactConfig(regime);
+cfg.scenario = "compact_finite_contacts_" + regime;
 cfg.source.contact_model = "finite_segment";
 cfg.source.contact_sampling = "sparse_patch";
 cfg.source.contact_profile = "raised_cosine";

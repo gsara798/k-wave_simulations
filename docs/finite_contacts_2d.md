@@ -1,10 +1,10 @@
-# Stage 3B: finite external vibrator contacts
+# Finite-contacts 2D benchmark
 
-Stage 3B adds a finite-contact alternative without removing the validated
+This benchmark adds a finite-contact alternative without removing the validated
 point-contact model. Select it with:
 
 ```matlab
-cfg = kwsim.two_d.finiteContactConfig("directional");
+cfg = kwsim_benchmarks.finite_contacts_2d.config("directional");
 ```
 
 In two dimensions these sources generate circular or cylindrical wavefronts.
@@ -64,11 +64,11 @@ Every finite-contact run reports:
 - temporal source purity and final-cycle field convergence;
 - P/S content, angular concentration, angular entropy, and spatial coherence.
 
-`kwsim.diagnostics.compareContactModels` compares saved point and finite
+`kwsim_benchmarks.finite_contacts_2d.compareModels` compares saved point and finite
 results over their exact common physical ROI, including complex correlation
 and shape error after optimal complex scaling.
 
-`kwsim.diagnostics.runContactSizeSweep` provides the compact point-limit
+`kwsim_benchmarks.finite_contacts_2d.runSizeSweep` provides the compact point-limit
 diagnostic. In the reference sweep, field correlation to the point model was
 0.916 for a 4 mm segment and 0.253 for an 8 mm segment; optimal-scaled shape
 errors were 0.401 and 0.967. Thus the smaller validated contact moves clearly
@@ -78,11 +78,11 @@ consequential rather than a cosmetic parameter.
 ## Validation and output
 
 ```matlab
-validation = kwsim.diagnostics.runFiniteContactValidation();
-kwsim.diagnostics.saveFiniteContactValidation( ...
-    validation, 'outputs/stage3b_finite_contacts');
+validation = kwsim_benchmarks.finite_contacts_2d.run();
+kwsim_benchmarks.finite_contacts_2d.saveResults( ...
+    validation, 'outputs/finite_contacts_2d');
 ```
 
-The acceptance suite uses the same angular and reproducibility gates as Stage
-3. The readable summary also includes every single-run contact and
+The acceptance suite uses the same angular and reproducibility gates as
+the point-contact field-regimes benchmark. The readable summary also includes every single-run contact and
 stationarity check.

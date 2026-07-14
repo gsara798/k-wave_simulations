@@ -1,5 +1,5 @@
-function [fig, output_file] = plotStage3Comparison(validation, output_file)
-%PLOTSTAGE3COMPARISON Compare source banks, measured fields, and spectra.
+function [fig, output_file] = plotResults(validation, output_file)
+%PLOTRESULTS Compare source banks, measured fields, and spectra.
 %
 % Rows show source geometry, measured axial-displacement amplitude, and the
 % vector-shear angular spectrum. Columns show directional, partially diffuse,
@@ -10,7 +10,7 @@ arguments
     output_file {mustBeTextScalar} = ""
 end
 
-style = kwsim.common.figureTemplate();
+style = kwsim.viz.figureTemplate();
 names = ["directional", "partially_diffuse", "diffuse"];
 display_names = ["Directional", "Partially diffuse", "Diffuse"];
 fig = figure('Visible', 'off', 'Color', style.background_color, ...
@@ -79,9 +79,9 @@ end
 contact_model = replace(string( ...
     validation.results.directional.source.contact_model), "_", " ");
 title(layout, sprintf( ...
-    'Stage 3 shear-field regimes at f_0 = %.1f Hz | contact: %s | valid = %d', ...
+    '2D shear-field regimes at f_0 = %.1f Hz | contact: %s | valid = %d', ...
     validation.results.directional.axes.f0_hz, contact_model, validation.valid));
-kwsim.common.applyFigureStyle(fig, style);
+kwsim.viz.applyFigureStyle(fig, style);
 
 output_file = string(output_file);
 if strlength(output_file) > 0

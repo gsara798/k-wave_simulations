@@ -63,7 +63,7 @@ The Stage 2 reference is `examples/two_d/run_stage2_circular_inclusion.m`.
 It validates a contrast circle against homogeneous and zero-contrast runs
 before saving material maps and field-comparison figures.
 
-The Stage 3 reference is `examples/two_d/run_stage3_field_regimes.m`. It runs
+The Stage 3 reference is `examples/two_d/run_field_regimes_benchmark.m`. It runs
 the three source regimes independently, verifies angular concentration and
 entropy, and saves a common field/source/spectrum comparison. Definitions and
 source-model limitations are in `docs/stage3_field_regimes.md`.
@@ -72,7 +72,7 @@ Stage 3B adds validated finite perimeter contacts while retaining point
 contacts. The reference uses a 4 mm raised-cosine segment sampled at three
 non-adjacent nodes. Run `examples/two_d/run_stage3b_finite_contacts.m`; the
 validated range and rejected dense discretizations are documented in
-`docs/stage3b_finite_contacts.md`.
+`docs/finite_contacts_2d.md`.
 
 ## Coordinate and field contract
 

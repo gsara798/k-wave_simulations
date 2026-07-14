@@ -1,6 +1,6 @@
-# Stage 3: directional, partially diffuse, and diffuse shear fields
+# Field-regimes 2D benchmark
 
-Stage 3 replaces the single left-side contact with a reproducible bank of
+The field-regimes benchmark replaces the single left-side contact with a reproducible bank of
 external vibrators. Every run remains monofrequency: all contacts in one
 simulation operate at the same `f0_hz`.
 
@@ -13,12 +13,12 @@ fraction of the prescribed drive. k-Wave receives a labelled `source.u_mask`:
 label `j` is driven by row `j` of `source.ux` and `source.uy` with
 `u_mode='dirichlet'`.
 
-Stage 3 activates one resolved node per vibrator. `contact_radius_m` defines
+The field-regimes benchmark activates one resolved node per vibrator. `contact_radius_m` defines
 placement clearance rather than a multi-node driven patch. Tests showed that
 placing several Dirichlet constraints inside every member of a large bank
 caused late-time non-stationarity in `pstdElastic2D`; the point-contact bank
-passes the final-cycle convergence test. Stage 1 retains its separately
-validated sparse 2 mm contact.
+passes the final-cycle convergence test. The separate single-contact benchmark retains its validated
+sparse 2 mm contact.
 
 The normalized drive is
 
@@ -70,12 +70,12 @@ source-bank reproducibility for a given seed.
 ## Running and saving
 
 ```matlab
-validation = kwsim.diagnostics.runStage3Validation();
-kwsim.diagnostics.saveStage3Validation(validation, ...
-    'outputs/stage3_field_regimes');
+validation = kwsim_benchmarks.field_regimes_2d.run();
+kwsim_benchmarks.field_regimes_2d.saveResults(validation, ...
+    'outputs/field_regimes_2d');
 ```
 
 The saved MAT file contains the three full phasor results and reports. The
-summary text exposes every threshold, and `stage3_field_regimes.png` compares
+summary text exposes every threshold, and `field_regimes_comparison.png` compares
 source geometry, measured axial-displacement amplitude, and vector-shear
 angular spectra.

@@ -1,7 +1,7 @@
-function sweep = runContactSizeSweep(point_cfg, finite_spans_m)
-%RUNCONTACTSIZESWEEP Compare one point vibrator with finite contact sizes.
+function sweep = runSizeSweep(point_cfg, finite_spans_m)
+%RUNSIZESWEEP Compare one point vibrator with finite contact sizes.
 %
-% sweep = kwsim.diagnostics.runContactSizeSweep()
+% sweep = kwsim_benchmarks.finite_contacts_2d.runSizeSweep()
 %
 % This diagnostic uses one external vibrator and fixed prescribed drive. The
 % angular concentration gate is disabled because a single compact radiator
@@ -36,7 +36,7 @@ for index = 1:numel(finite_spans_m)
     finite_cfg.source.contact_radius_m = finite_spans_m(index)/2;
     [finite_results{index}, finite_reports{index}] = ...
         kwsim.two_d.run(finite_cfg);
-    comparisons{index} = kwsim.diagnostics.compareContactModels( ...
+    comparisons{index} = kwsim_benchmarks.finite_contacts_2d.compareModels( ...
         point_result, finite_results{index});
 end
 
@@ -66,5 +66,5 @@ sweep.acceptance_scope = ...
 end
 
 function cfg = defaultPointConfig()
-cfg = kwsim.diagnostics.compactStage3Config("directional");
+cfg = kwsim_benchmarks.field_regimes_2d.compactConfig("directional");
 end
