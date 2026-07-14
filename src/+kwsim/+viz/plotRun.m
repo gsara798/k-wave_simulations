@@ -56,8 +56,23 @@ end
 hold off;
 xlabel('Lateral position, x (mm)'); ylabel('Axial position, z (mm)');
 if uses_vibrator_bank
-    title(sprintf('%s source bank (%d point contacts)', ...
-        sentenceCase(result.source.regime), result.source.vibrator_count));
+    contact_model = lower(string(result.source.contact_model));
+
+    switch contact_model
+        case "point"
+            contact_description = "point contacts";
+
+        case "finite_segment"
+            contact_description = "finite-segment contacts";
+
+        otherwise
+            contact_description = replace(contact_model, "_", " ");
+    end
+
+    title(sprintf('%s source bank (%d %s)', ...
+        sentenceCase(result.source.regime), ...
+        result.source.vibrator_count, ...
+        contact_description));
 else
     title(sprintf('Prescribed axial-velocity contact (%d nodes)', ...
         result.source.contact_node_count));

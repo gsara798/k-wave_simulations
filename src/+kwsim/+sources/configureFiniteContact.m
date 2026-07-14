@@ -1,7 +1,11 @@
 function cfg = configureFiniteContact(cfg, options)
 %CONFIGUREFINITECONTACT Represent each vibrator by a tapered finite segment.
 %
-% The defaults reproduce the validated reference contact on the current
+% For vibrator banks, Profile controls the spatial taper applied across
+% labelled contact nodes. Single finite contacts currently support only the
+% uniform profile; validateConfig rejects tapered single-contact requests.
+%
+% The defaults reproduce the validated finite-bank reference on the current
 % 0.5 mm grid: a 4 mm span sampled at three non-adjacent nodes.
 
 arguments
