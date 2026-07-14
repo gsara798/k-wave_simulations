@@ -65,7 +65,6 @@ end
 
 function testHeterogeneousMaterialsMapExactly(testCase)
 cfg = heterogeneousAttenuationConfig();
-cfg.stage = 4;
 cfg.grid.cfl = 0.025;
 % This unit test validates heterogeneous material rasterization only;
 % the full sensor is intentionally not executed at the viscous time step.
@@ -87,7 +86,6 @@ end
 
 function testRejectsMissingMaterialLaw(testCase)
 cfg = heterogeneousAttenuationConfig();
-cfg.stage = 4;
 cfg.grid.cfl = 0.05;
 cfg.attenuation.enabled = true;
 verifyError(testCase, @() kwsim.two_d.validateConfig(cfg), ...

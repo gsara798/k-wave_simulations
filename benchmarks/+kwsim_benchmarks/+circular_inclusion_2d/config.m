@@ -6,7 +6,6 @@ function cfg = config()
 % resolves one constant cp=10*max(cs)=30 m/s across both materials.
 
 cfg = kwsim.two_d.defaultConfig();
-cfg.stage = 2;
 cfg.scenario = "circular_inclusion";
 
 % Use an odd axial grid so the source, inclusion, and two exterior PMLs share

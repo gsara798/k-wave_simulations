@@ -7,7 +7,6 @@ function cfg = defaultConfig()
 
 cfg = struct();
 cfg.schema_version = "3.0";
-cfg.stage = 1;
 cfg.scenario = "homogeneous_directional";
 cfg.seed = 1001;
 

@@ -138,8 +138,8 @@ end
 if ~report.valid && cfg.diagnostics.fail_on_invalid
     failed_names = strjoin([report.checks(~[report.checks.pass]).name], ', ');
     error('kwsim:DiagnosticsFailed', ...
-        'Simulation completed but failed Stage %d diagnostics: %s', ...
-        cfg.stage, failed_names);
+        'Simulation completed but failed diagnostics: %s', ...
+        failed_names);
 end
 
 end

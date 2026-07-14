@@ -6,8 +6,6 @@ function cfg = compactConfig()
 
 cfg = ...
     kwsim_benchmarks.circular_inclusion_2d.config();
-
-cfg.stage = 2;
 cfg.scenario = "compact_circular_inclusion";
 
 cfg.grid.Nx = 40;

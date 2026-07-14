@@ -85,7 +85,6 @@ cfg = kwsim.two_d.defaultConfig();
 
 % Legacy stage metadata is retained while the solver configuration is
 % migrated; this fixture itself is independent of the benchmark package.
-cfg.stage = 3;
 cfg.scenario = "vibrator_bank_unit_fixture_" + regime;
 cfg.seed = 1002;
 

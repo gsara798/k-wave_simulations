@@ -75,7 +75,6 @@ end
 function testPointBankResolves(testCase)
 
 cfg = kwsim.two_d.defaultConfig();
-cfg.stage = 3;
 cfg.scenario = "point_bank_unit_test";
 
 cfg = kwsim.sources.configureVibratorBank( ...
@@ -104,7 +103,6 @@ end
 function testFiniteBankResolves(testCase)
 
 cfg = kwsim.two_d.defaultConfig();
-cfg.stage = 3;
 cfg.scenario = "finite_bank_unit_test";
 
 cfg = kwsim.sources.configureVibratorBank( ...

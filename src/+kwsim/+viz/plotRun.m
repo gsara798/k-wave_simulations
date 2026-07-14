@@ -17,12 +17,9 @@ if ~isfolder(output_directory)
 end
 
 files = struct();
-if isfield(result.config_resolved.source, 'layout')
-    uses_vibrator_bank = ...
-        lower(string(result.config_resolved.source.layout)) == "vibrator_bank";
-else
-    uses_vibrator_bank = result.config_resolved.stage >= 3;
-end
+uses_vibrator_bank = ...
+    isfield(result.config_resolved.source, 'layout') && ...
+    lower(string(result.config_resolved.source.layout)) == "vibrator_bank";
 
 % -------------------------------------------------------------------------
 % Source geometry, waveform, and spectrum

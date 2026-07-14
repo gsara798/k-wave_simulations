@@ -40,8 +40,6 @@ cfg = kwsim.two_d.defaultConfig();
 
 % Temporary compatibility while the generic core still requires stage.
 % This field will disappear in the stage-metadata cleanup commit.
-cfg.stage = 4;
-
 cfg.scenario = "attenuation_power_law_homogeneous";
 cfg.seed = options.Seed;
 

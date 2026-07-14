@@ -34,7 +34,7 @@ if fid < 0
         'Could not create diagnostic summary: %s', summary_file);
 end
 cleanup = onCleanup(@() fclose(fid));
-fprintf(fid, 'KWSIM STAGE %d DIAGNOSTICS\n', report.stage);
+fprintf(fid, 'KWSIM SIMULATION DIAGNOSTICS\n');
 fprintf(fid, '%s\n\n', report.summary);
 fprintf(fid, '%-34s %-6s %-14s %-14s %s\n', ...
     'Check', 'Pass', 'Value', 'Threshold', 'Meaning');
