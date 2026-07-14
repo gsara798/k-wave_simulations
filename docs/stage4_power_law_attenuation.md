@@ -58,7 +58,7 @@ same 500 Hz test was stationary and finite.
 
 The reference attenuation grid is 64 by 48 points at 0.5 mm spacing. This is
 a deliberate memory choice: eight recorded cycles at `CFL=0.025` on the
-96-by-96 Stage 1 sensor exceed the strict 2 GiB preflight limit, whereas the
+96-by-96 directional homogeneous sensor exceed the strict 2 GiB preflight limit, whereas the
 32-by-24 mm Stage 4 domain retains enough propagation distance for the fit.
 
 ## Matched attenuation measurement

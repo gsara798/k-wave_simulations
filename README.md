@@ -56,8 +56,8 @@ with `kwsim.common.applyFigureStyle(fig)`. The notation rules are documented
 in `docs/figure_style.md`.
 
 The complete reference example is
-`examples/two_d/run_stage1_directional.m`. The compact cross-run reliability
-suite is `examples/two_d/run_stage1_validation.m`.
+`examples/two_d/run_directional_homogeneous_benchmark.m`. The compact cross-run reliability
+suite is `examples/two_d/run_directional_homogeneous_validation.m`.
 
 The Stage 2 reference is `examples/two_d/run_stage2_circular_inclusion.m`.
 It validates a contrast circle against homogeneous and zero-contrast runs
@@ -113,7 +113,7 @@ near the left boundary. Its main propagation is lateral, making the imposed
 motion transverse and shear-dominant.
 
 k-Wave 1.4.1 becomes unstable when identical Dirichlet velocity is imposed on
-adjacent elastic grid points for a long continuous-wave run. Stage 1 therefore
+adjacent elastic grid points for a long continuous-wave run. The directional homogeneous benchmark therefore
 represents the approximately 2 mm contact using nodes spaced by two grid
 points. This is a
 documented solver limitation and is guarded by finite-field, P/S, speed, and
@@ -144,7 +144,7 @@ Every run performs:
 
 The cross-run suite additionally checks exact repetition, a 25% finer grid,
 and a physically larger downstream domain as the PML-reflection reference.
-See `docs/stage1_reliability.md` for definitions and thresholds.
+See `docs/directional_homogeneous_2d_reliability.md` for definitions and thresholds.
 
 ## Tests
 

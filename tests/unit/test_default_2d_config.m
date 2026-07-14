@@ -1,5 +1,5 @@
-function tests = test_stage1_config
-%TEST_STAGE1_CONFIG Unit tests for configuration resolution and safeguards.
+function tests = test_default_2d_config
+%TEST_DEFAULT_2D_CONFIG Unit tests for configuration resolution and safeguards.
 tests = functiontests(localfunctions);
 end
 

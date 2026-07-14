@@ -6,11 +6,11 @@ end
 function setupOnce(~)
 root = fileparts(fileparts(fileparts(mfilename('fullpath'))));
 addpath(fullfile(root, 'src'));
-kwsim.common.locateKWave();
+kwsim.io.locateKWave();
 end
 
 function testSourceIsAxialRampedAndNonAdjacent(testCase)
-cfg = kwsim.diagnostics.compactValidationConfig();
+cfg = kwsim.two_d.defaultConfig();
 [cfg, ~] = kwsim.two_d.validateConfig(cfg);
 [kgrid, cfg] = kwsim.two_d.buildGrid(cfg);
 [source, metadata] = kwsim.two_d.buildDirectionalSource(cfg, kgrid);

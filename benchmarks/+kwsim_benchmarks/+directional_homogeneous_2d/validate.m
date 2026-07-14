@@ -1,7 +1,7 @@
-function validation = runStage1Validation(base_cfg)
-%RUNSTAGE1VALIDATION Run cross-simulation Stage 1 reliability checks.
+function validation = validate(base_cfg)
+%VALIDATE Run cross-simulation directional homogeneous reliability checks.
 %
-% validation = kwsim.diagnostics.runStage1Validation(base_cfg)
+% validation = kwsim_benchmarks.directional_homogeneous_2d.validate(base_cfg)
 %
 % Four simulations are performed: baseline, exact repeat, 25% finer grid,
 % and a physically larger lateral domain. The suite measures deterministic
@@ -12,7 +12,7 @@ function validation = runStage1Validation(base_cfg)
 % expensive but follows the same contract.
 
 arguments
-    base_cfg struct = kwsim.two_d.defaultConfig()
+    base_cfg struct = kwsim_benchmarks.directional_homogeneous_2d.config()
 end
 
 base_cfg.diagnostics.fail_on_invalid = false;
@@ -76,6 +76,7 @@ addCheck("pml_relative_difference", ...
     pml_difference, base_cfg.diagnostics.maximum_pml_relative_difference);
 
 validation = struct();
+validation.benchmark = "directional_homogeneous_2d";
 validation.valid = all([checks.pass]);
 validation.checks = checks;
 validation.metrics = struct('repeat_relative_error', repeat_error, ...

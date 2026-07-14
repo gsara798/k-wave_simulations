@@ -1,6 +1,6 @@
-# Stage 1 reliability contract
+# Directional homogeneous 2D reliability contract
 
-Stage 1 answers one narrow question: can k-Wave 1.4.1 produce a stable,
+The directional homogeneous 2D benchmark answers one narrow question: can k-Wave 1.4.1 produce a stable,
 directional, axial shear-wave field in a homogeneous 2D elastic medium with a
 known speed? It does not yet validate inclusions, diffuse fields, arbitrary
 power-law attenuation, physical compressional speed, or 3D propagation.

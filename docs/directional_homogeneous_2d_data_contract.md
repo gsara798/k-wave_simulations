@@ -1,6 +1,6 @@
-# Stage 1 MAT data contract
+# Directional homogeneous 2D MAT data contract
 
-`kwsim.two_d.run` returns `result` and `report`. `saveRun` stores both without
+`kwsim.two_d.run` returns `result` and `report`. `kwsim.io.saveRun` stores both without
 renaming fields.
 
 Important result groups:

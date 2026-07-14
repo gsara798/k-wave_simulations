@@ -8,7 +8,7 @@ mid-plane with radius 8 mm. Background properties are `cs=2 m/s` and
 
 The reference uses `Nx=96` and `Nz=95`. The odd axial count provides an
 exact grid-node symmetry plane shared by the source, circle, and exterior
-PMLs; the Stage 1 reference remains 96-by-96.
+PMLs; the directional homogeneous reference remains 96-by-96.
 
 In reduced-compressional-speed mode, `cp` is resolved once as
 `10*max(cs)=30 m/s` and remains spatially constant. This avoids introducing
