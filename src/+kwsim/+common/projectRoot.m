@@ -1,11 +1,13 @@
-function root = projectRoot()
-%PROJECTROOT Return the absolute root directory of this repository.
+function varargout = projectRoot(varargin)
+%projectRoot Compatibility wrapper for kwsim.io.projectRoot.
 %
-% The calculation is based on this file's location, not on the current
-% working directory. This makes examples and downstream callers independent
-% of where MATLAB was launched.
+% This wrapper preserves the original API during the v2 architecture
+% migration. New code should call kwsim.io.projectRoot directly.
 
-common_dir = fileparts(mfilename('fullpath'));
-root = fileparts(fileparts(fileparts(common_dir)));
+if nargout == 0
+    kwsim.io.projectRoot(varargin{:});
+else
+    [varargout{1:nargout}] = kwsim.io.projectRoot(varargin{:});
+end
 
 end
