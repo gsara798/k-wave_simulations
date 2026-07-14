@@ -1,7 +1,7 @@
 function applyFigureStyle(figure_handle, style)
 %APPLYFIGURESTYLE Apply the shared typography to a completed MATLAB figure.
 %
-% kwsim.common.applyFigureStyle(fig)
+% kwsim.viz.applyFigureStyle(fig)
 %
 % Call this function after creating axes, labels, titles, legends, and
 % colorbars. It applies the template recursively, including objects created
@@ -9,7 +9,7 @@ function applyFigureStyle(figure_handle, style)
 
 arguments
     figure_handle (1,1) matlab.ui.Figure
-    style struct = kwsim.common.figureTemplate()
+    style struct = kwsim.viz.figureTemplate()
 end
 
 figure_handle.Color = style.background_color;

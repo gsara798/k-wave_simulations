@@ -46,7 +46,7 @@ for pair = sweep.pairs.'
 end
 clear cleanup;
 
-[fig, ~] = kwsim.diagnostics.plotStage4Sweep(sweep, paths.figure_file);
+[fig, ~] = kwsim.viz.plotStage4Sweep(sweep, paths.figure_file);
 close(fig);
 paths.pair_figures = strings(numel(sweep.pairs), 1);
 for index = 1:numel(sweep.pairs)
@@ -57,7 +57,7 @@ for index = 1:numel(sweep.pairs)
         mkdir(frequency_directory);
     end
     pair_file = fullfile(frequency_directory, "attenuation_diagnostics.png");
-    [fig, ~] = kwsim.diagnostics.plotStage4Pair(pair, pair_file);
+    [fig, ~] = kwsim.viz.plotStage4Pair(pair, pair_file);
     close(fig);
     paths.pair_figures(index) = pair_file;
 end

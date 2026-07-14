@@ -1,7 +1,7 @@
 function metrics = contactMetrics(result)
 %CONTACTMETRICS Quantify the realized geometry of a Stage 3 source bank.
 %
-% metrics = kwsim.diagnostics.contactMetrics(result)
+% metrics = kwsim.analysis.contactMetrics(result)
 %
 % A physical finite vibrator may own several solver labels. This diagnostic
 % verifies the distinction explicitly: contact-node spacing, realized span,

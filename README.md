@@ -30,14 +30,14 @@ disp(report.summary);
 To save the self-contained MAT result and diagnostic figures:
 
 ```matlab
-kwsim.common.saveRun(result, report, 'outputs/my_run');
+kwsim.io.saveRun(result, report, 'outputs/my_run');
 ```
 
 To inspect the measured axial displacement field interactively, including
 amplitude, phase, P/S separation, and the phase-speed fit:
 
 ```matlab
-kwsim.diagnostics.plotAxialField(result, report);
+kwsim.viz.plotAxialField(result, report);
 ```
 
 Pass `Quantity="velocity"` as a name-value option to visualize axial particle
@@ -46,13 +46,13 @@ velocity instead of displacement.
 Axial and lateral motion can be compared with shared amplitude scales using:
 
 ```matlab
-kwsim.diagnostics.plotMotionComponents(result, report);
+kwsim.viz.plotMotionComponents(result, report);
 ```
 
 All diagnostic figures use the reusable template returned by
-`kwsim.common.figureTemplate`: Times New Roman, 12 pt axes/labels/titles,
+`kwsim.viz.figureTemplate`: Times New Roman, 12 pt axes/labels/titles,
 14 pt figure titles, and 300 dpi export. Apply it to a new completed figure
-with `kwsim.common.applyFigureStyle(fig)`. The notation rules are documented
+with `kwsim.viz.applyFigureStyle(fig)`. The notation rules are documented
 in `docs/figure_style.md`.
 
 The complete reference example is

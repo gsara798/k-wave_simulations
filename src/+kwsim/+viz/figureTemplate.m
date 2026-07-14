@@ -1,7 +1,7 @@
 function style = figureTemplate()
 %FIGURETEMPLATE Return the shared publication-style figure configuration.
 %
-% style = kwsim.common.figureTemplate()
+% style = kwsim.viz.figureTemplate()
 %
 % Every project figure should obtain typography and export settings from
 % this function. Keeping these values in one place prevents inconsistent

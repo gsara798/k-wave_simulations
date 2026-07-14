@@ -20,7 +20,7 @@ if numel(material_ids) ~= 1
         'Stage 4 attenuation recovery currently requires a homogeneous medium.');
 end
 
-estimate = kwsim.diagnostics.estimateAttenuation(attenuated, lossless);
+estimate = kwsim.analysis.estimateAttenuation(attenuated, lossless);
 target = unique(attenuated.truth.attenuation.shear_alpha_at_f0_db_cm_zx);
 target = target(1);
 recovered = estimate.vector_shear.attenuation_db_cm;

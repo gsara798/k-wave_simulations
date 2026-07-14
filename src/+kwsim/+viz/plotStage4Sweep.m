@@ -6,7 +6,7 @@ arguments
     output_file {mustBeTextScalar} = ""
 end
 
-style = kwsim.common.figureTemplate();
+style = kwsim.viz.figureTemplate();
 fig = figure('Visible', 'off', 'Color', style.background_color, ...
     'Position', [80, 80, 1350, 850]);
 layout = tiledlayout(fig, 2, 2, 'TileSpacing', 'compact', 'Padding', 'compact');
@@ -58,7 +58,7 @@ heading = title(layout, { ...
     'Stage 4: monofrequency power-law attenuation validation'; ...
     sprintf('|y_{estimated} - y_{target}| = %.4f; valid = %d', ...
         sweep.power_y_absolute_error, sweep.valid)});
-kwsim.common.applyFigureStyle(fig, style);
+kwsim.viz.applyFigureStyle(fig, style);
 heading.FontName = char(style.font_name);
 heading.FontSize = style.figure_title_font_size_pt;
 

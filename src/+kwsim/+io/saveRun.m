@@ -1,7 +1,7 @@
 function paths = saveRun(result, report, output_directory, options)
 %SAVERUN Save a self-contained simulation result and diagnostic artifacts.
 %
-% paths = kwsim.common.saveRun(result, report, output_directory)
+% paths = kwsim.io.saveRun(result, report, output_directory)
 %
 % The MAT file always contains resolved configuration, truth maps, source
 % metadata, phasors, diagnostics, and provenance. Time series are present
@@ -25,7 +25,7 @@ if ~isfolder(output_directory)
 end
 
 save(run_file, 'result', 'report', '-v7.3');
-figure_paths = kwsim.diagnostics.plotRun(result, report, output_directory);
+figure_paths = kwsim.viz.plotRun(result, report, output_directory);
 
 summary_file = fullfile(output_directory, "diagnostics_summary.txt");
 fid = fopen(summary_file, 'w');

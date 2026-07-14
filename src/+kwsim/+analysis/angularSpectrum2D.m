@@ -1,7 +1,7 @@
 function metrics = angularSpectrum2D(result)
 %ANGULARSPECTRUM2D Quantify propagation directions of the vector shear field.
 %
-% metrics = kwsim.diagnostics.angularSpectrum2D(result)
+% metrics = kwsim.analysis.angularSpectrum2D(result)
 %
 % The lateral and axial complex shear-displacement phasors are tapered and
 % transformed together. Energy is integrated over an annulus around the

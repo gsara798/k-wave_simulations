@@ -9,7 +9,7 @@ addpath(fullfile(root, 'src'));
 end
 
 function testPowerLawEvaluation(testCase)
-alpha = kwsim.common.evaluatePowerLawAttenuation(1, 500, 1.2, 250);
+alpha = kwsim.materials.evaluatePowerLawAttenuation(1, 500, 1.2, 250);
 verifyEqual(testCase, alpha, 0.5^1.2, 'AbsTol', 1e-14);
 end
 

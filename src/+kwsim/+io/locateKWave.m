@@ -1,8 +1,8 @@
 function kwave_root = locateKWave(explicit_path)
 %LOCATEKWAVE Locate and add the pinned k-Wave 1.4.1 dependency.
 %
-% kwave_root = kwsim.common.locateKWave()
-% kwave_root = kwsim.common.locateKWave(explicit_path)
+% kwave_root = kwsim.io.locateKWave()
+% kwave_root = kwsim.io.locateKWave(explicit_path)
 %
 % The repository-local toolbox is preferred. An explicit path exists for
 % downstream projects that keep k-Wave elsewhere. Only the toolbox root is
@@ -23,7 +23,7 @@ if strlength(environment_path) > 0
 end
 
 candidates(end + 1, 1) = fullfile( ...
-    string(kwsim.common.projectRoot()), "k-wave-toolbox-version-1.4.1");
+    string(kwsim.io.projectRoot()), "k-wave-toolbox-version-1.4.1");
 
 kwave_root = "";
 for candidate = candidates.'

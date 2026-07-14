@@ -1,8 +1,8 @@
 function [figure_handle, output_file] = plotMotionComponents(result, report, output_file, options)
 %PLOTMOTIONCOMPONENTS Compare axial and lateral complex motion fields.
 %
-% kwsim.diagnostics.plotMotionComponents(result, report)
-% kwsim.diagnostics.plotMotionComponents(result, report, output_file)
+% kwsim.viz.plotMotionComponents(result, report)
+% kwsim.viz.plotMotionComponents(result, report, output_file)
 %
 % The source is polarized axially (+z). This figure compares the resulting
 % total axial component with the total lateral (+x) component using a common
@@ -25,7 +25,7 @@ arguments
 end
 
 quantity = lower(options.Quantity);
-style = kwsim.common.figureTemplate();
+style = kwsim.viz.figureTemplate();
 fields = resolveFields(result, quantity);
 
 switch quantity
@@ -141,7 +141,7 @@ ylabel(axis_handle, sprintf('Amplitude (%s)', display_units));
 title(axis_handle, sprintf('Profiles at source depth, z = %.2f mm', ...
     1e3*result.axes.z_m(source_row)));
 
-kwsim.common.applyFigureStyle(figure_handle, style);
+kwsim.viz.applyFigureStyle(figure_handle, style);
 figure_title.FontSize = style.figure_title_font_size_pt;
 
 output_file = string(output_file);

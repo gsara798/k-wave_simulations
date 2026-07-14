@@ -10,7 +10,7 @@ arguments
     output_file {mustBeTextScalar} = ""
 end
 
-style = kwsim.common.figureTemplate();
+style = kwsim.viz.figureTemplate();
 result = pair.attenuated;
 x_mm = result.axes.x_m*1e3;
 z_mm = result.axes.z_m*1e3;
@@ -69,7 +69,7 @@ heading = title(layout, { ...
     sprintf(['Target = %.4f dB cm^{-1}; estimated = %.4f dB cm^{-1}; ', ...
         'valid = %d'], pair.target_attenuation_db_cm, ...
         pair.recovered_attenuation_db_cm, pair.valid)});
-kwsim.common.applyFigureStyle(fig, style);
+kwsim.viz.applyFigureStyle(fig, style);
 heading.FontName = char(style.font_name);
 heading.FontSize = style.figure_title_font_size_pt;
 

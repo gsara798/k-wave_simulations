@@ -3,7 +3,7 @@ function sweep = run_stage4_power_law(output_directory)
 
 arguments
     output_directory {mustBeTextScalar} = ...
-        fullfile(kwsim.common.projectRoot(), "outputs", "stage4_power_law")
+        fullfile(kwsim.io.projectRoot(), "outputs", "stage4_power_law")
 end
 
 cfg = kwsim.two_d.stage4Config();

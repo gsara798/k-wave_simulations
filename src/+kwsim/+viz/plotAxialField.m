@@ -1,8 +1,8 @@
 function [figure_handle, output_file] = plotAxialField(result, report, output_file, options)
 %PLOTAXIALFIELD Visualize the complex axial field used as the measurement.
 %
-% kwsim.diagnostics.plotAxialField(result, report)
-% kwsim.diagnostics.plotAxialField(result, report, output_file)
+% kwsim.viz.plotAxialField(result, report)
+% kwsim.viz.plotAxialField(result, report, output_file)
 %
 % By default, the plotted quantity is axial displacement, because this is
 % the field most directly associated with ultrasound elastography motion.
@@ -35,7 +35,7 @@ arguments
 end
 
 quantity = lower(options.Quantity);
-style = kwsim.common.figureTemplate();
+style = kwsim.viz.figureTemplate();
 switch quantity
     case "displacement"
         fields = result.fields.displacement;
@@ -155,7 +155,7 @@ else
     title(axis_handle, 'Global shear-phase trend (descriptive only)');
 end
 
-kwsim.common.applyFigureStyle(figure_handle, style);
+kwsim.viz.applyFigureStyle(figure_handle, style);
 figure_title.FontSize = style.figure_title_font_size_pt;
 
 output_file = string(output_file);

@@ -22,7 +22,7 @@ if isfield(source_metadata, 'scalar_waveforms_m_s')
 else
     waveforms = source_metadata.waveform_m_s(index);
 end
-fit = kwsim.diagnostics.fitHarmonic(waveforms, t_s, source_metadata.f0_hz);
+fit = kwsim.signal.fitHarmonic(waveforms, t_s, source_metadata.f0_hz);
 
 % The worst source is the conservative pass/fail statistic. Per-vibrator
 % values remain available to reveal a malformed member hidden by averaging.

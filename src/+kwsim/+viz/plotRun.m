@@ -11,7 +11,7 @@ arguments
 end
 
 output_directory = string(output_directory);
-style = kwsim.common.figureTemplate();
+style = kwsim.viz.figureTemplate();
 if ~isfolder(output_directory)
     mkdir(output_directory);
 end
@@ -122,7 +122,7 @@ end
 
 text(0, 0.22, sprintf('Diagnostic status: %s', status_text));
 
-kwsim.common.applyFigureStyle(fig, style);
+kwsim.viz.applyFigureStyle(fig, style);
 
 files.source = fullfile(output_directory, "source_diagnostics.png");
 exportgraphics(fig, files.source, 'Resolution', style.export_resolution_dpi, ...
@@ -130,12 +130,12 @@ exportgraphics(fig, files.source, 'Resolution', style.export_resolution_dpi, ...
 close(fig);
 
 files.field = fullfile(output_directory, "field_diagnostics.png");
-[~, files.field] = kwsim.diagnostics.plotAxialField(result, report, ...
+[~, files.field] = kwsim.viz.plotAxialField(result, report, ...
     files.field, 'Quantity', "displacement", 'Visible', false, ...
     'CloseAfterExport', true);
 
 files.components = fullfile(output_directory, "motion_components.png");
-[~, files.components] = kwsim.diagnostics.plotMotionComponents(result, report, ...
+[~, files.components] = kwsim.viz.plotMotionComponents(result, report, ...
     files.components, 'Quantity', "displacement", 'Visible', false, ...
     'CloseAfterExport', true);
 
