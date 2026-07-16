@@ -22,7 +22,7 @@ if lower(string(cfg.source.layout)) == "vibrator_bank"
     [source, source_metadata] = ...
         kwsim.two_d.buildVibratorBankSource(cfg, kgrid);
 else
-    [source, source_metadata] = kwsim.two_d.buildDirectionalSource(cfg, kgrid);
+    [source, source_metadata] = kwsim.two_d.buildSingleContactSource(cfg, kgrid);
 end
 [sensor, sensor_metadata] = kwsim.two_d.buildSensor(cfg);
 

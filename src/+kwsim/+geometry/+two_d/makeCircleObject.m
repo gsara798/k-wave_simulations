@@ -1,13 +1,13 @@
 function object = makeCircleObject(center_m_xz, radius_m, material_id, cs_m_s, rho_kg_m3, name)
 %MAKECIRCLEOBJECT Define one circular 2D material object in SI units.
 %
-% object = kwsim.two_d.makeCircleObject(center_m_xz, radius_m, ...
+% object = kwsim.geometry.two_d.makeCircleObject(center_m_xz, radius_m, ...
 %     material_id, cs_m_s, rho_kg_m3, name)
 %
 % center_m_xz is [x,z] in metres. The returned definition contains no grid
 % indices and can therefore be rasterized reproducibly on different grids.
 % Objects are composed in configuration order; later objects overwrite
-% earlier objects where they overlap. Stage 2 validates a single circle,
+% earlier objects where they overlap. The circular-inclusion benchmark validates a single circle,
 % while this ordered contract is retained for the later mask library.
 
 arguments

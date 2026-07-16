@@ -1,5 +1,5 @@
-function [source, metadata] = buildDirectionalSource(cfg, kgrid)
-%BUILDDIRECTIONALSOURCE Create the prescribed Stage 1 shear-wave vibrator.
+function [source, metadata] = buildSingleContactSource(cfg, kgrid)
+%BUILDSINGLECONTACTSOURCE Build a prescribed 2D single-contact source.
 %
 % The contact is represented by regularly sampled points along a vertical
 % line near the left boundary. Its imposed velocity is purely axial (+z),
@@ -12,7 +12,7 @@ function [source, metadata] = buildDirectionalSource(cfg, kgrid)
 % long continuous-wave simulations. Sampling the contact every second grid
 % point avoids conflicting adjacent constraints while retaining a resolved
 % 2 mm contact. This behavior is covered by the finite-field diagnostic and
-% documented as a Stage 1 solver limitation.
+% documented as a single-contact solver limitation.
 %
 % source follows the pstdElastic2D convention [Nx,Nz]. metadata contains
 % both that orientation and the public [Nz,Nx] representation.

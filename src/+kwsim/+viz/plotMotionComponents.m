@@ -12,7 +12,7 @@ function [figure_handle, output_file] = plotMotionComponents(result, report, out
 %
 % Quantity="displacement" is the default for ultrasound elastography.
 % Quantity="velocity" displays the corresponding particle velocities.
-% Older Stage 1 MAT files without explicit lateral displacement fields are
+% Older MAT files without explicit lateral displacement fields are
 % supported by deriving them from velocity using U = V/(i*2*pi*f0).
 
 arguments
@@ -175,7 +175,7 @@ end
 end
 
 function fields = resolveFields(result, quantity)
-%RESOLVEFIELDS Support current results and previously saved Stage 1 files.
+%RESOLVEFIELDS Support current results and previously saved legacy files.
 switch quantity
     case "velocity"
         fields = result.fields.velocity;

@@ -1,5 +1,5 @@
 function tests = test_circular_inclusion_benchmark
-%TEST_CIRCULAR_INCLUSION_BENCHMARK Integration tests for heterogeneous Stage 2 simulations.
+%TEST_CIRCULAR_INCLUSION_BENCHMARK Integration tests for heterogeneous circular-inclusion simulations.
 tests = functiontests(localfunctions);
 end
 

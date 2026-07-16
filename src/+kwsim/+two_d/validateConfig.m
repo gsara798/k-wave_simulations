@@ -145,7 +145,7 @@ else
     valid_regime = any(lower(string(cfg.source.regime)) == ...
         ["directional", "partially_diffuse", "diffuse"]);
     addCheck("source_regime", valid_regime, double(valid_regime), 1, ...
-        "Stage 3 source.regime must name a supported field regime.");
+        "Vibrator-bank source.regime must name a supported field regime.");
     valid_count = isIntegerScalar(cfg.source.vibrator_count) && ...
         cfg.source.vibrator_count >= 1;
     addCheck("vibrator_count", valid_count, cfg.source.vibrator_count, 1, ...
@@ -201,12 +201,12 @@ else
 end
 addCheck("source_mode", lower(string(cfg.source.mode)) == "dirichlet", ...
     double(lower(string(cfg.source.mode)) == "dirichlet"), 1, ...
-    "Stage 1 external vibrators use prescribed (dirichlet) velocity.");
+    "External single-contact sources use prescribed (dirichlet) velocity.");
 addCheck("ramp_cycles", isPositiveScalar(cfg.source.ramp_cycles), ...
     cfg.source.ramp_cycles, 0, "source.ramp_cycles must be positive.");
 addCheck("analysis_cycles", isPositiveScalar(cfg.time.analysis_cycles) && ...
     cfg.time.analysis_cycles >= 8, cfg.time.analysis_cycles, 8, ...
-    "At least eight steady cycles are required for Stage 1 diagnostics.");
+    "At least eight analysis cycles are required for homogeneous speed diagnostics.");
 
 if any(~[checks.pass])
     throwPreflight(checks);
@@ -274,7 +274,7 @@ z_m = (0:(Nz - 1)) * dz;
 
 source_position_m = [x_m(source_center_x), (source_center_z - 1) * dz];
 
-% Stage 3 resolves every perimeter contact during preflight. The resulting
+% Vibrator-bank configurations resolve every perimeter contact during preflight. The resulting
 % labelled mask is reused by the solver, so the geometry and drive checks
 % below describe exactly the sources that will be executed.
 if uses_vibrator_bank

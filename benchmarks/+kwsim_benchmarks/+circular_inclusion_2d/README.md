@@ -1,6 +1,6 @@
-# Stage 2 circular-inclusion benchmark
+# Circular-inclusion 2D benchmark
 
-Stage 2 extends the validated directional 2D solver with ordered physical
+This benchmark extends the validated directional 2D solver with ordered physical
 geometry objects. The reference contains one circle centred on the domain
 mid-plane with radius 8 mm. Background properties are `cs=2 m/s` and
 `rho=1000 kg/m^3`; inclusion properties are `cs=3 m/s` and

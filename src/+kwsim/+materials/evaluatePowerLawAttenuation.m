@@ -7,7 +7,7 @@ function alpha_db_cm = evaluatePowerLawAttenuation( ...
 %
 % The returned value is an amplitude attenuation coefficient in dB/cm.
 % This pure unit-conversion helper does not imply that the time-domain
-% elastic solver implements an arbitrary power law. Stage 4 evaluates this
+% elastic solver implements an arbitrary power law. The attenuation benchmark evaluates this
 % target independently for each monofrequency simulation and then calibrates
 % k-Wave's f^2 Kelvin-Voigt coefficient at that simulation frequency.
 

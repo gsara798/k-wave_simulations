@@ -59,18 +59,18 @@ The complete reference example is
 `examples/two_d/run_directional_homogeneous_benchmark.m`. The compact cross-run reliability
 suite is `examples/two_d/run_directional_homogeneous_validation.m`.
 
-The Stage 2 reference is `examples/two_d/run_stage2_circular_inclusion.m`.
+The circular-inclusion reference is `examples/two_d/run_circular_inclusion_benchmark.m`.
 It validates a contrast circle against homogeneous and zero-contrast runs
 before saving material maps and field-comparison figures.
 
-The Stage 3 reference is `examples/two_d/run_field_regimes_benchmark.m`. It runs
+The field-regimes reference is `examples/two_d/run_field_regimes_benchmark.m`. It runs
 the three source regimes independently, verifies angular concentration and
 entropy, and saves a common field/source/spectrum comparison. Definitions and
-source-model limitations are in `docs/stage3_field_regimes.md`.
+source-model limitations are documented in `benchmarks/+kwsim_benchmarks/+field_regimes_2d/README.md`.
 
-Stage 3B adds validated finite perimeter contacts while retaining point
+The finite-contacts benchmark adds validated finite perimeter contacts while retaining point
 contacts. The reference uses a 4 mm raised-cosine segment sampled at three
-non-adjacent nodes. Run `examples/two_d/run_stage3b_finite_contacts.m`; the
+non-adjacent nodes. Run `examples/two_d/run_finite_contacts_benchmark.m`; the
 validated range and rejected dense discretizations are documented in
 `docs/finite_contacts_2d.md`.
 
@@ -119,13 +119,13 @@ points. This is a
 documented solver limitation and is guarded by finite-field, P/S, speed, and
 stationarity diagnostics. The additive source used by the archive is not used.
 
-Stage 3 uses labelled point contacts around the perimeter. Every contact has
+The field-regimes benchmark uses labelled point contacts around the perimeter. Every contact has
 its own phase and transverse vector polarization. Directional comparisons
 hold the total prescribed RMS-squared velocity drive constant as contact count
 changes; this quantity is not described as mechanical power because contact
 stress is unknown.
 
-For finite Stage 3B contacts, physical-vibrator IDs are stored separately from
+For finite contacts, physical-vibrator IDs are stored separately from
 solver-channel labels. This permits spatially weighted finite segments while
 preserving the requested total drive. In 2D their outgoing wavefronts are
 circular/cylindrical; spherical propagation requires 3D.

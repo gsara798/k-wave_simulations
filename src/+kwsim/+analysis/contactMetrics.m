@@ -1,5 +1,5 @@
 function metrics = contactMetrics(result)
-%CONTACTMETRICS Quantify the realized geometry of a Stage 3 source bank.
+%CONTACTMETRICS Quantify the realized geometry of a finite-contact source bank.
 %
 % metrics = kwsim.analysis.contactMetrics(result)
 %

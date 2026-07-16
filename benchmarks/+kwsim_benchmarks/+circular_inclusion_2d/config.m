@@ -9,7 +9,7 @@ cfg = kwsim.two_d.defaultConfig();
 cfg.scenario = "circular_inclusion";
 
 % Use an odd axial grid so the source, inclusion, and two exterior PMLs share
-% an exact grid-node symmetry plane. Nx remains 96; Stage 1 retains its
+% an exact grid-node symmetry plane. Nx remains 96; the homogeneous reference retains its
 % original 96-by-96 reference grid.
 cfg.grid.Nz = 95;
 
@@ -18,7 +18,7 @@ cfg.grid.Nz = 95;
 % testable on the discrete grid.
 center_x_m = 0.5 * (cfg.grid.Nx - 1) * cfg.grid.dx_m;
 center_z_m = 0.5 * (cfg.grid.Nz - 1) * cfg.grid.dz_m;
-cfg.geometry.objects = kwsim.two_d.makeCircleObject( ...
+cfg.geometry.objects = kwsim.geometry.two_d.makeCircleObject( ...
     [center_x_m, center_z_m], 8e-3, 2, 3.0, 1020, "central_inclusion");
 
 end

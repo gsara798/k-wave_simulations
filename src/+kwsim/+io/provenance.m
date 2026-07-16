@@ -3,7 +3,7 @@ function info = provenance(cfg, kwave_root)
 %
 % This is descriptive provenance rather than a claim of cross-platform
 % bitwise reproducibility. Numerical reproducibility is assessed separately
-% by the Stage 1 validation suite on the same backend.
+% by the directional homogeneous validation suite on the same backend.
 
 arguments
     cfg struct

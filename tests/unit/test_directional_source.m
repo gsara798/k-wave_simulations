@@ -13,7 +13,7 @@ function testSourceIsAxialRampedAndNonAdjacent(testCase)
 cfg = kwsim.two_d.defaultConfig();
 [cfg, ~] = kwsim.two_d.validateConfig(cfg);
 [kgrid, cfg] = kwsim.two_d.buildGrid(cfg);
-[source, metadata] = kwsim.two_d.buildDirectionalSource(cfg, kgrid);
+[source, metadata] = kwsim.two_d.buildSingleContactSource(cfg, kgrid);
 
 verifyEqual(testCase, string(source.u_mode), "dirichlet");
 verifyEqual(testCase, source.uy(1), single(0));
