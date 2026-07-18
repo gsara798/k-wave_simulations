@@ -100,6 +100,12 @@ cfg.output.save_time_series = false;
 cfg.output.directory = "";
 cfg.output.overwrite = false;
 
+% Temporal reduction from simulated time series to complex fields at f0.
+cfg.analysis = struct();
+cfg.analysis.harmonic_method = "least_squares";
+cfg.analysis.temporal_window = "none";
+cfg.analysis.remove_mean = true;
+
 cfg.attenuation = struct();
 cfg.attenuation.enabled = false;
 cfg.attenuation.model = "monofrequency_power_law";

@@ -25,6 +25,7 @@ required_top_level = [
     "solver"
     "execution"
     "output"
+    "analysis"
     "attenuation"
     "diagnostics"
 ];
@@ -356,6 +357,47 @@ if lower(string(cfg.solver.data_cast)) ~= "single"
     error("kwsim:Invalid3DConfig", ...
         "The reproducible 3D foundation uses single precision.");
 end
+
+%% Harmonic analysis configuration
+
+assertField(cfg.analysis, "harmonic_method", "analysis");
+assertField(cfg.analysis, "temporal_window", "analysis");
+assertField(cfg.analysis, "remove_mean", "analysis");
+
+harmonic_method = lower(string(cfg.analysis.harmonic_method));
+
+valid_harmonic_methods = [
+    "least_squares"
+    "fourier_projection"
+    "fft_bin"
+];
+
+if ~any(harmonic_method == valid_harmonic_methods)
+    error("kwsim:Invalid3DConfig", ...
+        "analysis.harmonic_method must be least_squares, " + ...
+        "fourier_projection, or fft_bin.");
+end
+
+temporal_window = lower(string(cfg.analysis.temporal_window));
+
+valid_temporal_windows = [
+    "none"
+    "hann"
+];
+
+if ~any(temporal_window == valid_temporal_windows)
+    error("kwsim:Invalid3DConfig", ...
+        "analysis.temporal_window must be none or hann.");
+end
+
+if ~(islogical(cfg.analysis.remove_mean) && ...
+        isscalar(cfg.analysis.remove_mean))
+    error("kwsim:Invalid3DConfig", ...
+        "analysis.remove_mean must be a logical scalar.");
+end
+
+cfg.analysis.harmonic_method = harmonic_method;
+cfg.analysis.temporal_window = temporal_window;
 
 %% Memory preflight
 
