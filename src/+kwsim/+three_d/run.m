@@ -107,10 +107,19 @@ truth.roi = "sensor";
 
 result = struct();
 
-result.schema_version = "3.0";
+result.schema_version = cfg.schema_version;
 result.dimension = 3;
+
+% Dimension-independent public configuration contract.
+result.config_requested = requested_cfg;
+result.config_resolved = cfg;
+
+% Temporary compatibility alias. Remove after all callers use
+% result.config_resolved.
 result.cfg = cfg;
+
 result.preflight = raw.preflight;
+result.runtime_s = raw.metadata.elapsed_time_s;
 
 result.axes = struct();
 result.axes.x_m = raw.metadata.sensor.x_m;

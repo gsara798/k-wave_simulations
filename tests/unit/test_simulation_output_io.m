@@ -105,9 +105,7 @@ resolved_cfg.medium.cp_m_s = ...
 
 result = syntheticResult(resolved_cfg);
 
-paths = kwsim.io.saveSimulationResult( ...
-    result, ...
-    requested_cfg);
+paths = kwsim.io.saveSimulationResult(result);
 
 verifyTrue(testCase, isfile(fullfile( ...
     paths.config, "requested_config.mat")));
@@ -141,7 +139,10 @@ function result = syntheticResult(cfg)
 
 result = struct();
 result.dimension = 3;
+result.config_requested = cfg;
+result.config_resolved = cfg;
 result.cfg = cfg;
+result.runtime_s = 1.25;
 
 result.metadata = struct();
 result.metadata.elapsed_time_s = 1.25;

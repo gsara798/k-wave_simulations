@@ -62,9 +62,7 @@ fprintf("Solver finished in %.2f s.\n", ...
 
 %% Save configurations and data
 
-paths = kwsim.io.saveSimulationResult( ...
-    result, ...
-    requested_cfg);
+paths = kwsim.io.saveSimulationResult(result);
 
 fprintf("Saved simulation to:\n%s\n", paths.run);
 
