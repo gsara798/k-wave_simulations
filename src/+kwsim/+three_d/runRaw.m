@@ -44,7 +44,7 @@ end
     kwsim.three_d.buildMedium(cfg);
 
 [source, source_metadata] = ...
-    kwsim.three_d.buildSingleContactSource(cfg, kgrid);
+    kwsim.three_d.buildSource(cfg, kgrid);
 
 [sensor, sensor_metadata] = ...
     kwsim.three_d.buildSensor(cfg);

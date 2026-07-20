@@ -110,64 +110,95 @@ positiveScalar(cfg.source.boundary_margin_m, ...
 positiveInteger(cfg.source.contact_node_spacing_points, ...
     "source.contact_node_spacing_points");
 
-if lower(string(cfg.source.layout)) ~= "single_contact"
-    error("kwsim:Invalid3DConfig", ...
-        "The 3D foundation currently supports only single_contact layout.");
+source_layout = ...
+    lower(string(cfg.source.layout));
+
+valid_source_layouts = [
+    "single_contact"
+    "vibrator_bank"
+];
+
+if ~any(source_layout == valid_source_layouts)
+    error( ...
+        "kwsim:Invalid3DConfig", ...
+        "source.layout must be single_contact or vibrator_bank.");
 end
 
 if lower(string(cfg.source.side)) ~= "left"
-    error("kwsim:Invalid3DConfig", ...
-        "The initial 3D source is implemented only on the left x side.");
+    error( ...
+        "kwsim:Invalid3DConfig", ...
+        "The current 3D source layouts require source.side=left.");
 end
 
 if lower(string(cfg.source.contact_model)) ~= "finite_disk"
-    error("kwsim:Invalid3DConfig", ...
-        "The initial 3D contact_model must be finite_disk.");
+    error( ...
+        "kwsim:Invalid3DConfig", ...
+        "The 3D contact_model must be finite_disk.");
 end
 
 if lower(string(cfg.source.contact_sampling)) ~= "sparse_patch"
-    error("kwsim:Invalid3DConfig", ...
-        "The initial finite disk must use sparse_patch sampling.");
+    error( ...
+        "kwsim:Invalid3DConfig", ...
+        "Finite disks must use sparse_patch sampling.");
 end
 
 if lower(string(cfg.source.contact_profile)) ~= "uniform"
-    error("kwsim:Invalid3DConfig", ...
-        "The initial finite disk uses a uniform velocity profile.");
+    error( ...
+        "kwsim:Invalid3DConfig", ...
+        "Finite contacts currently use a uniform velocity profile.");
 end
 
 if lower(string(cfg.source.mode)) ~= "dirichlet"
-    error("kwsim:Invalid3DConfig", ...
-        "The initial 3D contact must use dirichlet velocity.");
+    error( ...
+        "kwsim:Invalid3DConfig", ...
+        "The current 3D contacts require dirichlet velocity.");
 end
 
-%% Source direction and polarization
+if source_layout == "single_contact"
+    polarization = ...
+        double(cfg.source.polarization_xyz(:));
 
-polarization = double(cfg.source.polarization_xyz(:));
-direction = double(cfg.source.target_direction_xyz(:));
+    direction = ...
+        double(cfg.source.target_direction_xyz(:));
 
-if numel(polarization) ~= 3 || ...
-        any(~isfinite(polarization)) || norm(polarization) == 0
-    error("kwsim:Invalid3DConfig", ...
-        "source.polarization_xyz must be a finite nonzero 3-vector.");
+    if numel(polarization) ~= 3 || ...
+            any(~isfinite(polarization)) || ...
+            norm(polarization) == 0
+        error( ...
+            "kwsim:Invalid3DConfig", ...
+            "source.polarization_xyz must be a finite nonzero 3-vector.");
+    end
+
+    if numel(direction) ~= 3 || ...
+            any(~isfinite(direction)) || ...
+            norm(direction) == 0
+        error( ...
+            "kwsim:Invalid3DConfig", ...
+            "source.target_direction_xyz must be a finite nonzero 3-vector.");
+    end
+
+    polarization = ...
+        polarization / norm(polarization);
+
+    direction = ...
+        direction / norm(direction);
+
+    if abs(dot(polarization, direction)) > 1e-12
+        error( ...
+            "kwsim:Invalid3DConfig", ...
+            "The source polarization must be transverse to propagation.");
+    end
+
+    cfg.source.polarization_xyz = ...
+        polarization.';
+
+    cfg.source.target_direction_xyz = ...
+        direction.';
+else
+    positiveInteger( ...
+        cfg.source.vibrator_count, ...
+        "source.vibrator_count");
 end
-
-if numel(direction) ~= 3 || ...
-        any(~isfinite(direction)) || norm(direction) == 0
-    error("kwsim:Invalid3DConfig", ...
-        "source.target_direction_xyz must be a finite nonzero 3-vector.");
-end
-
-polarization = polarization / norm(polarization);
-direction = direction / norm(direction);
-
-if abs(dot(polarization, direction)) > 1e-12
-    error("kwsim:Invalid3DConfig", ...
-        "The baseline shear-wave polarization must be transverse to " + ...
-        "the target propagation direction.");
-end
-
-cfg.source.polarization_xyz = polarization.';
-cfg.source.target_direction_xyz = direction.';
 
 %% Wavelength and spatial resolution
 
@@ -203,75 +234,22 @@ cfg.derived.domain_size_m_xyz = [
     (cfg.grid.Nz - 1) * cfg.grid.dz_m
 ];
 
-%% Resolve the sparse finite-disk source
+%% Resolve the configured source layout
 
-boundary_points_x = ...
-    round(cfg.source.boundary_margin_m / cfg.grid.dx_m);
+switch source_layout
+    case "single_contact"
+        [cfg, source_x] = ...
+            kwsim.three_d.resolveSingleContactConfig(cfg);
 
-source_x = 1 + boundary_points_x;
-source_y = round((cfg.grid.Ny + 1) / 2);
-source_z = round((cfg.grid.Nz + 1) / 2);
+    case "vibrator_bank"
+        [cfg, source_x] = ...
+            kwsim.three_d.resolveVibratorBankConfig(cfg);
 
-if source_x < 1 || source_x > cfg.grid.Nx
-    error("kwsim:Invalid3DConfig", ...
-        "The requested source boundary margin places the source outside the grid.");
+    otherwise
+        error( ...
+            "kwsim:Invalid3DConfig", ...
+            "Unsupported source layout after validation.");
 end
-
-[y_grid, z_grid] = ndgrid(1:cfg.grid.Ny, 1:cfg.grid.Nz);
-
-offset_y_m = (y_grid - source_y) * cfg.grid.dy_m;
-offset_z_m = (z_grid - source_z) * cfg.grid.dz_m;
-
-inside_disk = ...
-    offset_y_m.^2 + offset_z_m.^2 <= ...
-    cfg.source.contact_radius_m^2 + ...
-    10*eps(cfg.source.contact_radius_m^2);
-
-spacing = cfg.source.contact_node_spacing_points;
-
-sampled_lattice = ...
-    mod(y_grid - source_y, spacing) == 0 & ...
-    mod(z_grid - source_z, spacing) == 0;
-
-contact_mask_yz = inside_disk & sampled_lattice;
-
-if ~any(contact_mask_yz, "all")
-    error("kwsim:Invalid3DConfig", ...
-        "The finite-disk source contains no sampled grid points.");
-end
-
-if nnz(contact_mask_yz) < 3
-    error("kwsim:Invalid3DConfig", ...
-        "The finite-disk source must contain at least three sampled nodes.");
-end
-
-[contact_y, contact_z] = find(contact_mask_yz);
-
-realized_radius_y_m = ...
-    max(abs(contact_y - source_y)) * cfg.grid.dy_m;
-
-realized_radius_z_m = ...
-    max(abs(contact_z - source_z)) * cfg.grid.dz_m;
-
-cfg.source.center_index_xyz = [source_x, source_y, source_z];
-
-cfg.source.center_m_xyz = [
-    cfg.derived.x_full_m(source_x), ...
-    cfg.derived.y_full_m(source_y), ...
-    cfg.derived.z_full_m(source_z)
-];
-
-cfg.source.contact_radius_points_y = ...
-    round(cfg.source.contact_radius_m / cfg.grid.dy_m);
-
-cfg.source.contact_radius_points_z = ...
-    round(cfg.source.contact_radius_m / cfg.grid.dz_m);
-
-cfg.source.contact_mask_yz = contact_mask_yz;
-cfg.source.contact_node_subscripts_yz = [contact_y, contact_z];
-cfg.source.contact_node_count = nnz(contact_mask_yz);
-cfg.source.realized_radius_y_m = realized_radius_y_m;
-cfg.source.realized_radius_z_m = realized_radius_z_m;
 
 %% Resolve the cuboidal analysis sensor
 

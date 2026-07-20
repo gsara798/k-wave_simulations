@@ -71,6 +71,13 @@ cfg.source.regime = "single";
 cfg.source.vibrator_count = 1;
 cfg.source.boundary_margin_m = 4e-3;
 
+% Multi-contact source-bank configuration. These fields are inactive when
+% source.layout is single_contact.
+cfg.source.bank_name = "partial_diffuse_8";
+cfg.source.phase_policy = "random_uniform";
+cfg.source.amplitude_policy = "equal_total_rms";
+cfg.source.polarization_policy = "project_axial_transverse";
+
 cfg.time = struct();
 cfg.time.analysis_cycles = 8;
 cfg.time.settling_cycles = 2;
