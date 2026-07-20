@@ -79,6 +79,6 @@
     "save_matlab_figures": true
   },
   "diagnostics": {
-    "fail_on_invalid": false
+    "fail_on_invalid": true
   }
 }
