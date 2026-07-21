@@ -82,6 +82,7 @@ cfg.source.minimum_out_of_plane_sources = 0;
 
 % Direction-first optimized angular-bank generation.
 cfg.source.geometry_seed = 8202;
+cfg.source.placement_policy = "angular_random_search";
 cfg.source.exact_in_plane_sources = 2;
 cfg.source.angular_candidate_count = 300;
 cfg.source.minimum_out_of_plane_component = 0.20;
