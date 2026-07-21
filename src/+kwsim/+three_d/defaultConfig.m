@@ -80,6 +80,18 @@ cfg.source.polarization_policy = "project_axial_transverse";
 cfg.source.minimum_in_plane_sources = 0;
 cfg.source.minimum_out_of_plane_sources = 0;
 
+% Direction-first optimized angular-bank generation.
+cfg.source.geometry_seed = 8202;
+cfg.source.exact_in_plane_sources = 2;
+cfg.source.angular_candidate_count = 300;
+cfg.source.minimum_out_of_plane_component = 0.20;
+cfg.source.minimum_unique_faces = 1;
+cfg.source.minimum_effective_angular_dimension = 1;
+cfg.source.maximum_directional_bias = 1;
+cfg.source.minimum_third_angular_eigenvalue = 0;
+cfg.source.minimum_axis_separation_deg = 0;
+cfg.source.maximum_mapping_error_deg = 10;
+
 cfg.time = struct();
 cfg.time.analysis_cycles = 8;
 cfg.time.settling_cycles = 2;

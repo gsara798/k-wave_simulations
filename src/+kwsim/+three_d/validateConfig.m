@@ -146,6 +146,10 @@ else
             required_side = ...
                 "multiface";
 
+        case "generated_angular"
+            required_side = ...
+                "multiface";
+
         otherwise
             required_side = ...
                 source_side;
