@@ -77,6 +77,8 @@ cfg.source.bank_name = "partial_diffuse_8";
 cfg.source.phase_policy = "random_uniform";
 cfg.source.amplitude_policy = "equal_total_rms";
 cfg.source.polarization_policy = "project_axial_transverse";
+cfg.source.minimum_in_plane_sources = 0;
+cfg.source.minimum_out_of_plane_sources = 0;
 
 cfg.time = struct();
 cfg.time.analysis_cycles = 8;
