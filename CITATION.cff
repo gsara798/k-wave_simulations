@@ -7,7 +7,7 @@ abstract: >-
   inclusions, external vibrator models, directional and diffuse source
   configurations, and automated reliability diagnostics.
 authors:
-  - family-names: "Gómez"
+  - family-names: "Gomez-Ramirez"
     given-names: "Sara"
     alias: "gsara798"
 repository-code: "https://github.com/gsara798/k-wave_simulations"
